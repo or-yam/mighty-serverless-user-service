@@ -2,9 +2,12 @@
 
 const uuid = require('uuid');
 const AWS = require('aws-sdk');
+const TableName = 'users';
+const region = 'eu-west-2';
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
+//Sign-Up
 module.exports.signup = async (event, context, callback) => {
   const requestBody = JSON.parse(event.body);
   const { firstName, lastName, email, phone, password } = requestBody;
@@ -79,6 +82,7 @@ module.exports.signIn = async (event, context, callback) => {
     return;
   }
 
+//Sign-In
   getUser(email)
     .then((res) => {
       res.password === password
@@ -113,3 +117,9 @@ module.exports.signIn = async (event, context, callback) => {
       .then((res) => userInfo);
   };
 };
+
+//Get All Users
+
+//Delete a User
+
+//Update a User
