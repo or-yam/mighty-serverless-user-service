@@ -2,8 +2,6 @@
 
 const uuid = require('uuid');
 const AWS = require('aws-sdk');
-const TableName = 'users';
-const region = 'eu-west-2';
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
@@ -43,7 +41,7 @@ module.exports.signup = async (event, context, callback) => {
         statusCode: 200,
         body: JSON.stringify({
           message: `Successfully submitted user with email ${email}`,
-          candidateId: res.id,
+          userId: res.id,
         }),
       });
     })
@@ -60,7 +58,7 @@ module.exports.signup = async (event, context, callback) => {
   const signUpUser = (user) => {
     console.log('Submitting user');
     const userInfo = {
-      TableName: 'users',
+      TableName: 'Users',
       Item: user,
     };
     return dynamoDb
@@ -82,7 +80,7 @@ module.exports.signIn = async (event, context, callback) => {
     return;
   }
 
-//Sign-In
+  //Sign-In
   getUser(email)
     .then((res) => {
       res.password === password
@@ -108,7 +106,7 @@ module.exports.signIn = async (event, context, callback) => {
   const getUser = (email) => {
     console.log('Getting user');
     const userInfo = {
-      TableName: 'users',
+      TableName: 'Users',
       key: { email: email },
     };
     return dynamoDb

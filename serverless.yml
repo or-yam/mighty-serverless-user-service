@@ -1,14 +1,17 @@
-service: users
+service: Users
 
 frameworkVersion: '2'
 
 provider:
   name: aws
   runtime: nodejs12.x
+  profile: serverlessUser
   stage: dev
+  region: eu-west-2
   environment:
     USER_TABLE: ${self:service}-${opt:stage, self:provider.stage}
     USER_EMAIL_TABLE: 'candidate-email-${opt:stage, self:provider.stage}'
+ 
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -43,10 +46,10 @@ functions:
     events:
       - http:
         path: users
-        method: put
+        method: post
   signin:
     handler: api/user.signin
     events:
       - http:
         path: users
-        method: get
+        method: post
